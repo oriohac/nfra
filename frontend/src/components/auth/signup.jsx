@@ -11,7 +11,9 @@ export default function Signup() {
         firstName: "",
         lastName: "",
         email: "",
+        refId: "",
         password: "",
+        confirmpassword: "",
     });
 
     const handleChange = (e) => {
@@ -26,27 +28,44 @@ export default function Signup() {
 
     const handleSignup = async () => {
 
+        const payload = {
+            firstName: signupData.firstName,
+            lastName: signupData.lastName,
+            email: signupData.email,
+            refId: signupData.refId,
+            password: signupData.password,
+        };
         try {
+            if (!signupData.confirmpassword || !signupData.password || !signupData.refId || !signupData.email || !signupData.firstName || !signupData.lastName) {
+                toast.error("Fill all fields")
+                return;
+            }
+            else if (signupData.confirmpassword !== signupData.password) {
+                toast.error("Recheck credentials")
+                return;
+            } else {
 
-            const res = await api.post(
-                "/auth/signup",
-                signupData
-            );
+                const res = await api.post(
+                    "/auth/signup",
+                    payload
+                );
+                console.log(res.data);
 
-            console.log(res.data);
+                toast.success(
+                    "User created successfully"
+                );
 
-            toast.success(
-                "User created successfully"
-            );
+                navigate("/login");
 
-            navigate("/login");
+            }
+
 
         } catch (error) {
 
             console.log(error);
 
             toast.error(
-                "Signup failed"
+                error.response?.data?.message || "Signup failed"
             );
         }
     };
@@ -69,12 +88,12 @@ export default function Signup() {
 
                 <div className="authform">
 
-                    <input required className="formfield" value={signupData.firstName} onChange={handleChange} name='firstName' placeholder="First name" />
-                    <input className="formfield" value={signupData.lastName} onChange={handleChange} name='lastName' placeholder="Last name" />
-                    <input className="formfield" value={signupData.email} onChange={handleChange} name='email' placeholder="Email" />
-                    <input className="formfield" name='' placeholder="Ref ID" />
-                    <input className="formfield" value={signupData.password} onChange={handleChange} name='password' placeholder="Password" type="password" />
-                    <input className="formfield" name='' placeholder="Confirm password" type="password" />
+                    <input className="formfield" value={signupData.firstName} onChange={handleChange} name='firstName' placeholder="First name" required />
+                    <input className="formfield" value={signupData.lastName} onChange={handleChange} name='lastName' placeholder="Last name" required />
+                    <input className="formfield" value={signupData.email} onChange={handleChange} name='email' placeholder="Email" required />
+                    <input className="formfield" value={signupData.refId.toUpperCase().replaceAll(" ", "")} onChange={handleChange} name='refId' placeholder="Ref ID" required />
+                    <input className="formfield" value={signupData.password} onChange={handleChange} name='password' placeholder="Password" type="password" required />
+                    <input className="formfield" value={signupData.confirmpassword} onChange={handleChange} name='confirmpassword' placeholder="Confirm password" type="password" required />
 
                     <input
                         type="button"

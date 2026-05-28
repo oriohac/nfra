@@ -46,6 +46,7 @@
 .introsectiontext p {
   font-size: 1.15rem;
   line-height: 1.8;
+  margin-bottom: 24px;
 
   max-width: 650px;
 
@@ -113,7 +114,8 @@
 /* POSTS */
 
 .posts-section {
-  padding: 80px 7%;
+  padding: 20px 4%;
+  padding-bottom: 10px;
 }
 
 .section-title {
@@ -178,7 +180,8 @@
 /* CTA SECTION */
 
 .cta-section {
-  padding: 80px 7%;
+  padding: 40px 7%;
+  padding-top: 0px;
 }
 
 .cta-card {
@@ -365,7 +368,9 @@ footer {
     flex-wrap: wrap;
   }
 
-  .posts-section,
+  .posts-section{
+    padding: 0px 0px;
+  }
   .cta-section {
     padding: 60px 20px;
   }

@@ -26,9 +26,14 @@
 .profile-header {
   display: flex;
   align-items: center;
-  gap: 15px;
+  justify-content: space-between;
+  /* gap: 15px; */
 
   margin-bottom: 20px;
+}
+.profile-info{
+  flex: 1;
+  text-align: right;
 }
 
 .avatar {
@@ -58,6 +63,8 @@
   padding: 12px;
 
   border: none;
+
+  align-content: center;
 
   background: #3350f4;
   color: white;
@@ -145,6 +152,8 @@
 
   font-size: 15px;
 
+  font-weight: bold;
+
   cursor: pointer;
 
   display: flex;
@@ -179,8 +188,88 @@
 
   background: white;
 }
+/* Make Icon Edit better */
+.avatar-container {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  cursor: pointer;
+}
+
+.avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.avatar-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 50%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  opacity: 1;
+  transition: 0.3s ease;
+}
+
+.edit-icon {
+  color: white;
+  font-size: 28px;
+}
+
+.edit-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.cancel-btn {
+ margin-top: 25px;
+
+  padding: 12px 20px;
+
+  border: none;
+
+  border-radius: 10px;
+
+  background: #c90202;
+
+  color: white;
+
+  font-size: 15px;
+
+  font-weight: bold;
+
+  cursor: pointer;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+}
+
+.cancel-btn:hover {
+  background: #b3b3b3;
+}
 /* MOBILE */
 @media (max-width: 600px) {
+  .profile-header {
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+
+    gap: 15px;
+  }
+
+
+  .profile-info {
+    text-align: center;
+  }
   .profile-grid {
     grid-template-columns: 1fr;
   }

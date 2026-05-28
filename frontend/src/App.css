@@ -98,36 +98,85 @@
   cursor: pointer;
 }
 
+.menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  background: rgba(0, 0, 0, 0.3);
+
+  z-index: 10;
+}
+
+.navlinks {
+  z-index: 11;
+  position: relative;
+}
+
 /* MOBILE */
 @media (max-width: 768px) {
 
-  .hamburger {
-    display: block;
-  }
+  /* ===== Overlay (blur background) ===== */
+.menu-overlay {
+  position: fixed;
+  inset: 0;
 
-  .navlinks {
-    position: absolute;
+  background: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(6px);
 
-    top: 70px;
-    right: 7%;
+  z-index: 10;
+}
 
-    background: white;
+/* ===== Drawer base (hidden state) ===== */
+.navlinks {
+  
+  position: fixed;
+  top: 0;
+  right: 0;
 
-    flex-direction: column;
-    gap: 16px;
+  height: 100vh;
+  width: 260px;
+  border-radius: 20px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
 
-    padding: 20px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(15px);
 
-    width: 200px;
+  display: flex;
+  flex-direction: column;
+  padding: 80px 20px;
 
-    border-radius: 12px;
+  gap: 20px;
 
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  transform: translateX(100%);
+  transition: transform 0.35s ease-in-out;
 
-    display: none;
-  }
+  z-index: 20;
 
-  .navlinks.open {
-    display: flex;
-  }
+  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.2);
+}
+
+/* ===== Open state ===== */
+.navlinks.open {
+  transform: translateX(0);
+}
+
+/* ===== Links styling ===== */
+.nav-link {
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 20px;
+}
+
+/* ===== Hamburger (optional improvement) ===== */
+.hamburger {
+  font-size: 26px;
+  cursor: pointer;
+  z-index: 30;
+  display: block;
+}
 }

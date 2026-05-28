@@ -96,3 +96,12 @@
 .contact-form button:hover{
   background: #2563eb;
 }
+
+@media (max-width:768px) {
+  .contact-page{
+ 
+
+  padding: 30px 6%;
+}
+  
+}

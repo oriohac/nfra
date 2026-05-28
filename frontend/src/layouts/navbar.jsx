@@ -1,11 +1,12 @@
 import '../App.css'
-import { isAuthenticated, logoutUser, isAdmin, getUser } from "../components/auth/authHelper";
-import { useState } from 'react'
+import { isAuthenticated, logoutUser, isAdmin, getUser, isUser } from "../components/auth/authHelper";
+import { useState, useRef, useEffect } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom';
 
 
 export default function Navbar() {
     const [menuOpen, setMenuOpen] = useState(false);
+    const navRef = useRef(null);
 
     const toggleMenu = () => {
         setMenuOpen(prev => !prev);
@@ -20,9 +21,27 @@ export default function Navbar() {
         logoutUser();
         navigate("/");
     };
+
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (navRef.current && !navRef.current.contains(event.target)) {
+                setMenuOpen(false);
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+
+
     return (
         <div>
-            <header className="navbar">
+            {menuOpen && <div className="menu-overlay" onClick={closeMenu}/>}
+            <header className="navbar" ref={navRef}>
 
                 <NavLink to="/"><div className="logo">
 
@@ -50,10 +69,18 @@ export default function Navbar() {
                         Contact us
                     </NavLink>
                     {isAdmin() && (
-                        <NavLink to="/admin-dashboard" className="nav-link">
+                        <NavLink to="/admin-dashboard" onClick={closeMenu} className="nav-link">
                             Admin
                         </NavLink>
                     )}
+
+                    {isUser() && (
+                        <NavLink to="/userprofile" onClick={closeMenu} className="nav-link">
+                            Profile
+                        </NavLink>
+                    )
+
+                    }
 
                     {isAuthenticated() ? (
                         <span

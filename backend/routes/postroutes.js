@@ -44,7 +44,7 @@ router.get(
   "/latest",
   async (req, res) => {
 
-    const posts = await Post.find().sort({ createdAt: -1 }).limit(4);
+    const posts = await Post.find().sort({ createdAt: -1 }).limit(2);
 
     res.json(posts);
 

@@ -146,32 +146,6 @@ export default function Home() {
             </div>
 
           </div>
-          {/* <h2 className="section-title"> Recent Posts</h2>
-
-          <div className="recent-posts">
-
-
-            <Posts
-              image={introimage}
-              title={"NFRA encourage members to register for fitness test"}
-              news={"The leadership of the Nigeria Football Referees Association wish to announce to its members that they should start registering for the 2026 fitness test!"}
-              date={"May 20, 2026"}
-            />
-            <Posts
-              image={introimage}
-              title={"NFRA encourage members to register for fitness test"}
-              news={"The leadership of the Nigeria Football Referees Association wish to announce to its members that they should start registering for the 2026 fitness test!"}
-              date={"May 20, 2026"}
-            />
-            <Posts
-              image={introimage}
-              title={"NFRA encourage members to register for fitness test"}
-              news={"The leadership of the Nigeria Football Referees Association wish to announce to its members that they should start registering for the 2026 fitness test!"}
-              date={"May 20, 2026"}
-            />
-
-
-          </div> */}
         </section>
 
         <section className="cta-section">

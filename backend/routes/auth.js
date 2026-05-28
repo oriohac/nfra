@@ -7,8 +7,33 @@ const upload = require("../middleware/uploadprofileimage");
 const router = express.Router();
 
 router.post("/signup", async (req, res) => {
+  try {
+    
+  
 
-  const { firstName, lastName, email, password } = req.body;
+  const { firstName, lastName, email, refId, password } = req.body;
+
+  if (
+      !firstName ||
+      !lastName ||
+      !email ||
+      !refId ||
+      !password
+    ) {
+      return res.status(400).json({
+        message: "Fill all fields"
+      });
+    }
+
+    const existingUser = await User.findOne({
+      email
+    });
+
+    if (existingUser) {
+      return res.status(400).json({
+        message: "Email already exists"
+      });
+    }
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -16,10 +41,17 @@ router.post("/signup", async (req, res) => {
     firstName,
     lastName,
     email,
+    refId,
     password: hashedPassword
-  });
+  }
+);
 
   res.json(user);
+} catch (error) {
+    res.status(500).json({
+      message: error.message
+    });
+  }
 });
 
 router.post("/login", async (req, res) => {
@@ -35,8 +67,8 @@ router.post("/login", async (req, res) => {
   if (!isMatch) return res.status(400).json("Invalid credentials");
 
   const token = jwt.sign(
-    { 
-      id: user._id ,
+    {
+      id: user._id,
       role: user.role
     },
     process.env.JWT_SECRET,
@@ -45,24 +77,25 @@ router.post("/login", async (req, res) => {
 
   res.json({
     token,
-    user:{
+    user: {
       _id: user._id,
-    firstName: user.firstName,
-    lastName: user.lastName,
-    email: user.email,
-    role: user.role,
-    onboardingCompleted: user.onboardingCompleted,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      refId: user.refId,
+      role: user.role,
+      onboardingCompleted: user.onboardingCompleted,
     }
   });
 });
 
 router.put("/onboarding/:id",
   upload.single('profilePhoto'),
-   async (req, res) => {
+  async (req, res) => {
 
-  try {
+    try {
 
-    const updatedUser = await User.findByIdAndUpdate( req.params.id,
+      const updatedUser = await User.findByIdAndUpdate(req.params.id,
 
         {
 
@@ -83,13 +116,13 @@ router.put("/onboarding/:id",
           lastLeagueOfficiated: req.body.lastLeagueOfficiated,
 
           lastGradeYear: req.body.lastGradeYear,
-         
-          profilePhoto: 
-          req.file
-          ? `/uploads/${req.file.filename}`
-          : null,
 
-           onboardingCompleted: true,
+          profilePhoto:
+            req.file
+              ? `/uploads/${req.file.filename}`
+              : null,
+
+          onboardingCompleted: true,
 
 
         },
@@ -98,17 +131,17 @@ router.put("/onboarding/:id",
 
       );
 
-    res.json(updatedUser);
+      res.json(updatedUser);
 
-  } catch (error) {
+    } catch (error) {
 
-    res.status(500).json({
-      message: error.message
-    });
+      res.status(500).json({
+        message: error.message
+      });
 
-  }
+    }
 
-});
+  });
 
 router.get("/user/:id", async (req, res) => {
 
@@ -130,36 +163,75 @@ router.get("/user/:id", async (req, res) => {
 
 });
 
-router.patch("/user/:id", async (req, res) => {
+const fs = require("fs");
+const path = require("path");
+router.patch("/user/:id",
+  upload.single("profilePhoto"),
+  async (req, res) => {
 
-  try {
+    try {
 
-    const updatedUser = await User.findByIdAndUpdate(
+      const user = await User.findById(req.params.id);
 
-      req.params.id,
+      if (!user) {
+        return res.status(404).json({
+          message: "User not found",
+        });
+      }
 
-      {
+      const updatedData = {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         phone: req.body.phone,
         grade: req.body.grade,
-      },
+        refId: req.body.refId,
+      };
 
-      { new: true }
+      // only update image if a new one exists
+      if (req.file) {
+        // delete old image if it exists
+        if (user.profilePhoto) {
 
-    );
+          const oldImagePath = path.join(
+            __dirname,
+            "..",
+            user.profilePhoto
+          );
 
-    res.json(updatedUser);
+          if(fs.existsSync(oldImagePath)){
+          fs.unlink(oldImagePath, (err) => {
+            if (err) {
+              console.log("Old image delete failed:", err);
+            }
+          });
+        }
+      }
 
-  } catch (error) {
+        updatedData.profilePhoto =
+          `/uploads/${req.file.filename}`;
+      }
 
-    res.status(500).json({
-      message: error.message
-    });
+      const updatedUser = await User.findByIdAndUpdate(
 
-  }
+        req.params.id,
 
-});
+       updatedData,
+
+        { new: true }
+
+      );
+
+      res.json(updatedUser);
+
+    } catch (error) {
+
+      res.status(500).json({
+        message: error.message
+      });
+
+    }
+
+  });
 
 router.post("/logout", async (req, res) => {
   try {

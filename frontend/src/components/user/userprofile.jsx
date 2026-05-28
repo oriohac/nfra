@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import './userprofile.css';
 import api from "../../api/api";
@@ -17,12 +17,16 @@ export default function UserProfile() {
   const navigate = useNavigate();
   const [profile, setProfile] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
+  const [profilePhoto, setProfilePhoto] = useState(null);
+  const [initialFormData, setInitialFormData] = useState(null);
+  const fileInputRef = useRef(null);
 
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     phone: "",
     grade: "",
+    refId: "",
   });
 
   useEffect(() => {
@@ -47,6 +51,7 @@ export default function UserProfile() {
           grade: response.data.grade || "",
           firstName: response.data.firstName || "",
           lastName: response.data.lastName || "",
+          refId: response.data.refId || "",
         });
 
       } catch (error) {
@@ -62,16 +67,32 @@ export default function UserProfile() {
   }, []);
 
   const handleSave = async () => {
+
     try {
-      const user = JSON.parse(localStorage.getItem("user"));
+
+      const user = JSON.parse(
+        localStorage.getItem("user")
+      );
+
+      const form = new FormData();
+
+      form.append("phone", formData.phone);
+      form.append("grade", formData.grade);
+      form.append("firstName", formData.firstName);
+      form.append("lastName", formData.lastName);
+      form.append("refId", formData.refId);
+
+      if (profilePhoto) {
+        form.append("profilePhoto", profilePhoto);
+      }
 
       const response = await api.patch(
         `/auth/user/${user._id}`,
+        form,
         {
-          phone: formData.phone,
-          grade: formData.grade,
-          firstName: formData.firstName,
-          lastName: formData.lastName,
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         }
       );
 
@@ -79,13 +100,17 @@ export default function UserProfile() {
 
       setIsEditing(false);
 
-      toast.info("Profile updated successfully");
+      toast.success("Profile updated successfully");
 
     } catch (error) {
+
       console.log(error);
+
       toast.error("Failed to update profile");
     }
   };
+
+
 
   if (!profile) {
     return <h2>No profile found</h2>;
@@ -116,15 +141,44 @@ export default function UserProfile() {
       <div className="profile-card">
 
         <div className="profile-header">
-          <div className="avatar">
+          <div
+            className="avatar-container"
+            onClick={() => {
+              if (isEditing) {
+                fileInputRef.current.click();
+              }
+            }}
+          >
+
             <img
-              src={`http://localhost:5000${profile.profilePhoto}`}
+              src={
+                profilePhoto
+                  ? URL.createObjectURL(profilePhoto)
+                  : `http://localhost:5000${profile.profilePhoto}?${Date.now()}`
+              }
               alt="profile"
               className="avatar"
             />
+
+            {isEditing && (
+              <div className="avatar-overlay">
+                <FaEdit className="edit-icon" />
+              </div>
+            )}
+
+            <input
+              type="file"
+              accept="image/*"
+              ref={fileInputRef}
+              style={{ display: "none" }}
+              onChange={(e) => {
+                setProfilePhoto(e.target.files[0]);
+              }}
+            />
+
           </div>
 
-          <div>
+          <div className="profile-info">
             <h2> {isEditing
               ? (<input
                 type="text"
@@ -154,18 +208,6 @@ export default function UserProfile() {
                 : (profile.lastName)}</h2>
             <p>{profile.email}</p>
           </div>
-
-          {/* <div>
-            <button style={{ padding: 12, borderRadius: 20, backgroundColor: "red", color: "white", fontSize: 16, fontWeight: "bold", border: "none" }} onClick={() => {
-              localStorage.clear()
-              navigate("/login")
-            }}>Logout</button>
-          </div>
-
-          <div>
-            <strong>Role: </strong>
-            {profile.role}
-          </div> */}
         </div>
 
 
@@ -218,7 +260,7 @@ export default function UserProfile() {
                   })
                 }
               >
-                <option value="" disabled selected>Select Grade</option>
+                <option value="" disabled>Select Grade</option>
                 <option value="One">One</option>
                 <option value="FIFA">FIFA</option>
                 <option value="RTD">RTD</option>
@@ -234,23 +276,56 @@ export default function UserProfile() {
             {profile.specialization}
           </div>
 
+          <div>
+            <strong>Ref ID: </strong>
+            {isEditing
+              ? (<input
+                type="text"
+                value={formData.refId.toUpperCase().replaceAll(" ", "")}
+                onChange={
+                  (e) =>
+                    setFormData({
+                      ...formData,
+                      refId: e.target.value,
+                    })
+                }
+              />
+              )
+              : (profile.refId)
+            }
+          </div>
+
         </div>
 
         {!isEditing ? (
           <button
             className="edit-btn"
-            onClick={() => setIsEditing(true)}
+            onClick={() => {
+              setInitialFormData(formData);
+              setIsEditing(true);
+            }}
           >
             <FaEdit /> Edit Profile
           </button>
         ) : (
-          <button
-            className="save-btn"
-            onClick={handleSave}
-          >
-            <FaSave /> Save Changes
-          </button>
+          <div className="edit-actions">
+            <button className="save-btn" onClick={handleSave}>
+              <FaSave /> Save Changes
+            </button>
+
+            <button
+              className="cancel-btn"
+              onClick={() => {
+                setFormData(initialFormData);
+                setProfilePhoto(null);
+                setIsEditing(false);
+              }}
+            >
+              Cancel
+            </button>
+          </div>
         )}
+
 
         {/* DASHBOARD BOXES */}
 
