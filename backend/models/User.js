@@ -18,10 +18,13 @@ const userSchema = new mongoose.Schema({
   lastGradeYear: Number,
 
   profilePhoto: String,
-  day: Number,
-  month: String,
-  year: Number,
+  dateOfBirth: String,
   lastLeagueOfficiated: String,
+
+  zone: {
+    type: String,
+    default: ""
+  },
 
   role: {
     type: String,

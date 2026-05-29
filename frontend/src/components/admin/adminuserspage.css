@@ -1,0 +1,82 @@
+.admin-users-page {
+  padding: 20px;
+  background: #f5f7fb;
+  min-height: 100vh;
+}
+
+.admin-users-page h2 {
+  margin-bottom: 20px;
+  font-size: 22px;
+  font-weight: 600;
+  color: #222;
+}
+
+/* TABLE WRAPPER */
+.admin-users-page table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+/* HEADER */
+.admin-users-page thead {
+  background: #111827;
+  color: #fff;
+}
+
+.admin-users-page th {
+  padding: 14px;
+  text-align: left;
+  font-size: 14px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.admin-users-page th:hover {
+  background: #1f2937;
+}
+
+/* ROWS */
+.admin-users-page td {
+  padding: 12px 14px;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+  color: #333;
+}
+
+.admin-users-page tr:hover {
+  background: #f3f4f6;
+}
+.admin-users-page thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.zone-badge {
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+.zone-a {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.zone-b {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .admin-users-page table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}

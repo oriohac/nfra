@@ -3,17 +3,18 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const upload = require("../middleware/uploadprofileimage");
+const { getZone, getFemaleZone } = require("../utils/getZone");
 
 const router = express.Router();
 
 router.post("/signup", async (req, res) => {
   try {
-    
-  
 
-  const { firstName, lastName, email, refId, password } = req.body;
 
-  if (
+
+    const { firstName, lastName, email, refId, password } = req.body;
+
+    if (
       !firstName ||
       !lastName ||
       !email ||
@@ -35,19 +36,19 @@ router.post("/signup", async (req, res) => {
       });
     }
 
-  const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-  const user = await User.create({
-    firstName,
-    lastName,
-    email,
-    refId,
-    password: hashedPassword
-  }
-);
+    const user = await User.create({
+      firstName,
+      lastName,
+      email,
+      refId,
+      password: hashedPassword
+    }
+    );
 
-  res.json(user);
-} catch (error) {
+    res.json(user);
+  } catch (error) {
     res.status(500).json({
       message: error.message
     });
@@ -95,13 +96,27 @@ router.put("/onboarding/:id",
 
     try {
 
+      const maleZone = getZone(
+        req.body.state,
+        req.body.gender,
+        req.body.grade
+      );
+
+      const femaleZone = getFemaleZone(
+        req.body.state,
+        req.body.gender,
+        req.body.grade
+      );
+
+      // USE WHICHEVER EXISTS
+      const zone = maleZone || femaleZone;
+
+
       const updatedUser = await User.findByIdAndUpdate(req.params.id,
 
         {
 
-          day: req.body.day,
-          month: req.body.month,
-          year: req.body.year,
+          dateOfBirth: req.body.dateOfBirth,
 
           phone: req.body.phone,
 
@@ -116,6 +131,8 @@ router.put("/onboarding/:id",
           lastLeagueOfficiated: req.body.lastLeagueOfficiated,
 
           lastGradeYear: req.body.lastGradeYear,
+
+          zone: zone,
 
           profilePhoto:
             req.file
@@ -198,14 +215,14 @@ router.patch("/user/:id",
             user.profilePhoto
           );
 
-          if(fs.existsSync(oldImagePath)){
-          fs.unlink(oldImagePath, (err) => {
-            if (err) {
-              console.log("Old image delete failed:", err);
-            }
-          });
+          if (fs.existsSync(oldImagePath)) {
+            fs.unlink(oldImagePath, (err) => {
+              if (err) {
+                console.log("Old image delete failed:", err);
+              }
+            });
+          }
         }
-      }
 
         updatedData.profilePhoto =
           `/uploads/${req.file.filename}`;
@@ -215,7 +232,7 @@ router.patch("/user/:id",
 
         req.params.id,
 
-       updatedData,
+        updatedData,
 
         { new: true }
 

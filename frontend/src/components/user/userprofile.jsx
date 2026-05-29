@@ -135,6 +135,21 @@ export default function UserProfile() {
     },
   ];
 
+  const formattedDate =
+  new Date(profile.dateOfBirth)
+    .toLocaleDateString(
+      "en-GB",
+      {
+
+        day: "2-digit",
+
+        month: "short",
+
+        year: "numeric"
+
+      }
+    );
+
   return (
     <div className="profile-page">
 
@@ -245,7 +260,7 @@ export default function UserProfile() {
 
           <div>
             <strong>DOB: </strong>
-            {profile.day} {profile.month}, {profile.year}
+            {formattedDate}
           </div>
 
           <div>

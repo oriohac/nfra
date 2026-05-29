@@ -4,6 +4,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "react-toastify";
 import "./updateuserprofile.css";
 import api from "../../api/api";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 export default function UpdateUserProfile({ onClose }) {
 
@@ -26,9 +28,6 @@ export default function UpdateUserProfile({ onClose }) {
   }, [step]);
 
   const [formData, setFormData] = useState({
-    day: "",
-    month: "",
-    year: "",
     phone: "",
     state: "",
     gender: "",
@@ -37,6 +36,7 @@ export default function UpdateUserProfile({ onClose }) {
     grade: "",
     lastGradeYear: "",
     profilePhoto: null,
+    dateOfBirth: null,
   });
 
   const user = JSON.parse(localStorage.getItem("user"));
@@ -51,9 +51,10 @@ export default function UpdateUserProfile({ onClose }) {
 
       const data = new FormData();
 
-      data.append("day", formData.day);
-      data.append("month", formData.month);
-      data.append("year", formData.year);
+      const formattedDOB = formData.dateOfBirth.toISOString().split("T")[0];
+
+
+      data.append("dateOfBirth", formattedDOB);
 
       data.append("phone", formData.phone);
 
@@ -161,128 +162,113 @@ export default function UpdateUserProfile({ onClose }) {
 
   const validateStep1 = () => {
 
-  if (
-    !formData.day ||
-    formData.day === "Day"
-  ) {
-    toast.error("Please select day");
-    return false;
-  }
+    if (
+      !formData.dateOfBirth 
+    ) {
+      toast.error("Please select date of birth");
+      return false;
+    }
 
-  if (
-    !formData.month ||
-    formData.month === "Month"
-  ) {
-    toast.error("Please select month");
-    return false;
-  }
+   
 
-  if (
-    !formData.year ||
-    formData.year === "Year"
-  ) {
-    toast.error("Please select year");
-    return false;
-  }
+    if (!formData.phone.trim()) {
+      toast.error("Phone number is required");
+      return false;
+    }
 
-  if (!formData.phone.trim()) {
-    toast.error("Phone number is required");
-    return false;
-  }
+    if (
+      !formData.state ||
+      formData.state === "Select State"
+    ) {
+      toast.error("Please select state");
+      return false;
+    }
 
-  if (
-    !formData.state ||
-    formData.state === "Select State"
-  ) {
-    toast.error("Please select state");
-    return false;
-  }
+    if (
+      !formData.gender ||
+      formData.gender === "Gender"
+    ) {
+      toast.error("Please select gender");
+      return false;
+    }
 
-  if (
-    !formData.gender ||
-    formData.gender === "Gender"
-  ) {
-    toast.error("Please select gender");
-    return false;
-  }
+    return true;
 
-  return true;
-
-};
+  };
 
 
-const validateStep2 = () => {
+  const validateStep2 = () => {
 
-  if (
-    !formData.specialization ||
-    formData.specialization ===
+    if (
+      !formData.specialization ||
+      formData.specialization ===
       "Specialization"
-  ) {
-    toast.error(
-      "Please select specialization"
-    );
+    ) {
+      toast.error(
+        "Please select specialization"
+      );
 
-    return false;
-  }
+      return false;
+    }
 
-  if (
-    !formData.lastLeagueOfficiated ||
-    formData.lastLeagueOfficiated ===
+    if (
+      !formData.lastLeagueOfficiated ||
+      formData.lastLeagueOfficiated ===
       "Last League Officiated"
-  ) {
-    toast.error(
-      "Please select last league officiated"
-    );
+    ) {
+      toast.error(
+        "Please select last league officiated"
+      );
 
-    return false;
-  }
+      return false;
+    }
 
-  if (
-    !formData.grade ||
-    formData.grade === "Grade"
-  ) {
-    toast.error("Please select grade");
+    if (
+      !formData.grade ||
+      formData.grade === "Grade"
+    ) {
+      toast.error("Please select grade");
 
-    return false;
-  }
+      return false;
+    }
 
-  if (
-    !formData.lastGradeYear ||
-    formData.lastGradeYear ===
+    if (
+      !formData.lastGradeYear ||
+      formData.lastGradeYear ===
       "Year of Last Grade"
-  ) {
-    toast.error(
-      "Please select last grade year"
-    );
+    ) {
+      toast.error(
+        "Please select last grade year"
+      );
 
-    return false;
-  }
+      return false;
+    }
 
-  return true;
+    return true;
 
-};
+  };
 
- const nextStep = () => {
+  const nextStep = () => {
 
-  if (step === 1) {
+    if (step === 1) {
 
-    const isValid = validateStep1();
+      const isValid = validateStep1();
 
-    if (!isValid) return;
+      if (!isValid) return;
 
-  }
+    }
 
-  if (step === 2) {
+    if (step === 2) {
 
-    const isValid = validateStep2();
+      const isValid = validateStep2();
 
-    if (!isValid) return;
+      if (!isValid) return;
 
-  }
+    }
 
-  setStep((prev) => prev + 1);
+    setStep((prev) => prev + 1);
 
-};
+  };
 
   const prevStep = () => {
     setStep(prev => prev - 1);
@@ -342,7 +328,7 @@ const validateStep2 = () => {
 
               <h3>Personal Information</h3>
 
-              <div className="row">
+              {/* <div className="row">
                 <select required name="day" value={formData.day} onChange={handleChange}>
                   <option value="" disabled>Day</option>
                   {Array.from({ length: 31 }, (_, i) => (
@@ -367,6 +353,42 @@ const validateStep2 = () => {
                     return <option key={year} value={year}>{year}</option>;
                   })}
                 </select>
+              </div> */}
+
+              <div className="date-picker-container">
+
+                <DatePicker
+
+                  selected={formData.dateOfBirth}
+
+                  onChange={(date) =>
+
+                    setFormData((prev) => ({
+
+                      ...prev,
+
+                      dateOfBirth: date
+
+                    }))
+
+                  }
+
+                  dateFormat="dd MMM, yyyy"
+
+                  placeholderText="Select Date of Birth"
+
+                  maxDate={new Date()}
+
+                  showYearDropdown
+
+                  scrollableYearDropdown
+
+                  yearDropdownItemNumber={100}
+
+                  className="date-picker-input"
+
+                />
+
               </div>
 
               <input required={true} type="text" placeholder="Phone Number" name="phone" value={formData.phone} onChange={handleChange} />
@@ -396,7 +418,7 @@ const validateStep2 = () => {
                 <option value="Female">Female</option>
               </select>
 
-              <button className="next-btn" onClick={nextStep} disabled={!formData.day||!formData.month||!formData.year||!formData.state||!formData.gender}>
+              <button className="next-btn" onClick={nextStep} disabled={!formData.dateOfBirth || !formData.state || !formData.gender}>
                 Continue
               </button>
 

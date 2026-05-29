@@ -178,6 +178,23 @@ select:focus {
 
   margin-bottom: 15px;
 }
+
+.date-picker-container {
+  width: 100%;
+}
+
+.date-picker-input {
+  width: 100%;
+  padding: 14px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  font-size: 15px;
+  outline: none;
+}
+
+.date-picker-input:focus {
+  border-color: #2563eb;
+}
 /* MOBILE */
 @media (max-width: 600px) {
 

@@ -15,6 +15,8 @@ import MainLayout from './layouts/mainlayout';
 import ProtectedRoute from './wrapper/protectedroute';
 import AllPosts from './components/posts/allposts';
 import SinglePost from './components/posts/singlepost';
+import AdminUsersPage from './components/admin/adminuserspage';
+import ManagePostsPage from './components/admin/manageposts';
 
 function App() {
 
@@ -53,6 +55,15 @@ function App() {
           <Route path="/contact-us" element={<ContactUs />} ></Route>
           <Route path="/posts" element={<AllPosts />}></Route>
           <Route path="/posts/:id" element={<SinglePost />}></Route>
+          <Route path="/admin/users/:zone" element={
+            <ProtectedRoute roleRequired="admin">
+              <AdminUsersPage />
+            </ProtectedRoute>
+          }></Route>
+          <Route path="/admin/users/all" element={ <AdminUsersPage />} />
+          <Route path="/admin/users/male" element={ <AdminUsersPage />} />
+          <Route path="/admin/users/female" element={ <AdminUsersPage />} />
+          <Route path="/admin/manage-posts" element={<ManagePostsPage />}/>
         </Route>
 
         <Route path="/login" element={<Login />}></Route>
