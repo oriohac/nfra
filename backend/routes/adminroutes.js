@@ -5,6 +5,7 @@ const router = express.Router();
 const User = require("../models/User");
 const Match = require("../models/Match");
 const Report = require("../models/Report");
+const FitnessTestInterest = require("../models/FitnessTestInterest");
 
 const adminOnly = require("../middleware/adminonly");
 
@@ -88,6 +89,8 @@ router.get(
 
                 ]);
 
+            const fitnessTestAttendees = await FitnessTestInterest.countDocuments();
+
             res.json({
 
                 users: totalUsers,
@@ -113,6 +116,8 @@ router.get(
                 femaleSouthernZone,
 
                 femaleNorthernZone,
+
+                fitnessTestAttendees,
 
 
             });
@@ -199,6 +204,41 @@ router.get(
 
       res.status(500).json({
         message: error.message
+      });
+
+    }
+
+  }
+);
+
+router.get(
+
+  "/fitness-test-interest",
+
+  adminOnly,
+
+  async (req, res) => {
+
+    try {
+
+      const attendees =
+        await FitnessTestInterest
+          .find()
+          .populate(
+
+            "user",
+
+            "firstName lastName state phone grade specialization zone gender"
+          );
+
+      res.json(attendees);
+
+    } catch (error) {
+
+      res.status(500).json({
+
+        message: error.message
+
       });
 
     }

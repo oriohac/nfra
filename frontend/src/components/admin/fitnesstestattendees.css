@@ -1,0 +1,130 @@
+.fitness-admin-page {
+
+  padding: 30px;
+
+  background: #f3f4f6;
+
+  min-height: 100vh;
+}
+
+.fitness-admin-header {
+
+  margin-bottom: 24px;
+}
+
+.fitness-admin-header h1 {
+
+  font-size: 32px;
+
+  color: #111827;
+
+  margin-bottom: 10px;
+}
+
+.fitness-admin-header p {
+
+  color: #6b7280;
+
+  font-size: 15px;
+}
+
+.fitness-table-wrapper {
+
+  width: 100%;
+
+  overflow-x: auto;
+
+  background: white;
+
+  border-radius: 18px;
+
+  box-shadow:
+    0 4px 20px
+    rgba(0,0,0,0.06);
+}
+
+.fitness-table {
+
+  width: 100%;
+
+  border-collapse: collapse;
+
+  min-width: 900px;
+}
+
+.fitness-table thead {
+
+  background: #2563eb;
+
+  color: white;
+}
+
+.fitness-table th {
+
+  padding: 18px;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  font-size: 15px;
+
+  white-space: nowrap;
+
+  transition: 0.2s;
+}
+
+.fitness-table th:hover {
+
+  background: #1d4ed8;
+}
+
+.fitness-table td {
+
+  padding: 18px;
+
+  border-bottom:
+    1px solid #e5e7eb;
+
+  color: #374151;
+
+  font-size: 15px;
+}
+
+.fitness-table tbody tr {
+
+  transition: 0.2s;
+}
+
+.fitness-table tbody tr:hover {
+
+  background: #f9fafb;
+}
+
+.empty-cell {
+
+  text-align: center;
+
+  padding: 30px;
+
+  color: #6b7280;
+}
+
+@media (max-width: 768px) {
+
+  .fitness-admin-page {
+
+    padding: 16px;
+  }
+
+  .fitness-admin-header h1 {
+
+    font-size: 24px;
+  }
+
+  .fitness-table {
+
+    min-width: 700px;
+  }
+
+}

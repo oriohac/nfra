@@ -95,7 +95,7 @@ export default function Navbar() {
                         </span>
                     ) : (
                         <NavLink
-                            to="/signup"
+                            to="/login"
                             onClick={closeMenu}
                             className="nav-link"
                         >

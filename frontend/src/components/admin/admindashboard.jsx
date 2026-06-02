@@ -151,6 +151,31 @@ export default function AdminDashboard() {
           <p>{stats.femaleNorthernZone}</p>
         </div>
 
+        <div
+          className="admin-card"
+          onClick={() => navigate("/admin/manage-posts")}
+        >
+          <h3>Manage Posts</h3>
+
+          <p>View, edit and delete posts</p>
+        </div>
+
+        <div className="stat-card"
+
+          onClick={() =>
+            navigate( "/admin/fitness-test-attendees" )
+          } >
+
+          <h3>
+            Fitness Test Interest
+          </h3>
+
+          <p>
+            {stats.fitnessTestAttendees}
+          </p>
+
+        </div>
+
       </div>
 
       <div className="state-section">
@@ -178,16 +203,7 @@ export default function AdminDashboard() {
 
       <CreatePost />
 
-<div
-  className="admin-card"
-  onClick={() =>
-    navigate("/admin/manage-posts")
-  }
->
-  <h3>Manage Posts</h3>
 
-  <p>View, edit and delete posts</p>
-</div>
 
     </div>
 

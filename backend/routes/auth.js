@@ -3,6 +3,8 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const upload = require("../middleware/uploadprofileimage");
+const FitnessTestInterest = require("../models/FitnessTestInterest");
+const auth = require( "../middleware/auth");
 const { getZone, getFemaleZone } = require("../utils/getZone");
 
 const router = express.Router();
@@ -265,6 +267,65 @@ router.post("/logout", async (req, res) => {
     });
   }
 });
+
+router.post(
+
+  "/fitness-test-interest",
+
+  auth,
+
+  async (req, res) => {
+
+    try {
+
+      const existingInterest =
+        await FitnessTestInterest.findOne({
+
+          user: req.user.id
+
+        });
+
+      if (existingInterest) {
+
+        return res.status(400).json({
+
+          message:
+            "You have already indicated your attendance"
+
+        });
+
+      }
+
+      const interest =
+        await FitnessTestInterest.create({
+
+          user: req.user.id
+
+        });
+
+      res.json({
+
+        message:
+          "Attendance recorded successfully",
+
+        interest
+
+      });
+
+    } catch (error) {
+
+      res.status(500).json({
+
+        message: error.message
+
+      });
+
+    }
+
+  }
+);
+
+
 
 
 module.exports = router;

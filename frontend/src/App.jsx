@@ -1,6 +1,4 @@
-import { useState } from 'react'
 import './App.css'
-import { isAuthenticated, logoutUser } from "./components/auth/authHelper";
 import { BrowserRouter as Router, Routes, Route, Link, NavLink } from 'react-router-dom';
 import Login from './components/auth/login'
 import Signup from './components/auth/signup'
@@ -18,6 +16,8 @@ import SinglePost from './components/posts/singlepost';
 import AdminUsersPage from './components/admin/adminuserspage';
 import ManagePostsPage from './components/admin/manageposts';
 import EditPostPage from './components/admin/editpost';
+import FitnessTestInterest from './components/fitness/fitnesstestinterest';
+import FitnessTestAttendees from './components/admin/fitnesstestattendees';
 
 function App() {
 
@@ -28,18 +28,10 @@ function App() {
 
 
     <Router>
-
-
-
-
-
       <Routes>
         <Route element={<MainLayout />}>
 
-
           <Route path="/" element={<Home />}></Route>
-
-
 
           <Route path="/userprofile" element={
             <ProtectedRoute roleRequired="user">
@@ -61,11 +53,41 @@ function App() {
               <AdminUsersPage />
             </ProtectedRoute>
           }></Route>
-          <Route path="/admin/users/all" element={ <AdminUsersPage />} />
-          <Route path="/admin/users/male" element={ <AdminUsersPage />} />
-          <Route path="/admin/users/female" element={ <AdminUsersPage />} />
-          <Route path="/admin/manage-posts" element={<ManagePostsPage />}/>
-          <Route path="/admin/edit-post/:id" element={<EditPostPage />}/>
+          <Route path="/admin/users/all" element={
+            <ProtectedRoute roleRequired="admin">
+              <AdminUsersPage />
+            </ProtectedRoute>
+          } ></Route>
+          <Route path="/admin/users/male" element={
+            <ProtectedRoute roleRequired="admin">
+              <AdminUsersPage />
+            </ProtectedRoute>
+          } ></Route>
+          <Route path="/admin/users/female" element={
+            <ProtectedRoute roleRequired="admin">
+              <AdminUsersPage />
+            </ProtectedRoute>
+          } ></Route>
+          <Route path="/admin/manage-posts" element={
+            <ProtectedRoute roleRequired="admin">
+              <ManagePostsPage />
+            </ProtectedRoute>
+          }></Route>
+          <Route path="/admin/edit-post/:id" element={
+            <ProtectedRoute roleRequired="admin">
+              <EditPostPage />
+            </ProtectedRoute>
+          }></Route>
+          <Route path="/fitness-test-interest" element={
+            <ProtectedRoute roleRequired="user">
+              <FitnessTestInterest />
+            </ProtectedRoute>
+          }></Route>
+          <Route path="/admin/fitness-test-attendees" element={
+            <ProtectedRoute roleRequired="admin">
+              <FitnessTestAttendees />
+            </ProtectedRoute>
+          }></Route>
         </Route>
 
         <Route path="/login" element={<Login />}></Route>

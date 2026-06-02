@@ -1,5 +1,5 @@
 import './auth.css';
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import UpdateUserProfile from '../user/updateuserprofile';
@@ -12,6 +12,9 @@ export default function Login() {
         email: "",
         password: ""
     });
+    const location = useLocation();
+
+const from = location.state?.from?.pathname ; //|| "/"
 
     const handleChange = (e) => {
 
@@ -60,9 +63,10 @@ export default function Login() {
 
             } else {
 
+                
+                navigate(from || "/userprofile");
+                // navigate("/userprofile");
                 toast.success("Login success");
-
-                navigate("/userprofile");
             }
 
         } catch (error) {
