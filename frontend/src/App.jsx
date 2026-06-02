@@ -17,6 +17,7 @@ import AllPosts from './components/posts/allposts';
 import SinglePost from './components/posts/singlepost';
 import AdminUsersPage from './components/admin/adminuserspage';
 import ManagePostsPage from './components/admin/manageposts';
+import EditPostPage from './components/admin/editpost';
 
 function App() {
 
@@ -64,6 +65,7 @@ function App() {
           <Route path="/admin/users/male" element={ <AdminUsersPage />} />
           <Route path="/admin/users/female" element={ <AdminUsersPage />} />
           <Route path="/admin/manage-posts" element={<ManagePostsPage />}/>
+          <Route path="/admin/edit-post/:id" element={<EditPostPage />}/>
         </Route>
 
         <Route path="/login" element={<Login />}></Route>

@@ -62,6 +62,7 @@ export default function SinglePost() {
       <h1>{post.title}</h1>
 
       <div
+      className="full-post-content"
         dangerouslySetInnerHTML={{
           __html: post.content
         }}

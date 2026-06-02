@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 import {
 
   FaTrash,
@@ -15,24 +15,21 @@ import "./manageposts.css";
 
 export default function ManagePostsPage() {
 
+  const navigate = useNavigate();
+
   const [posts, setPosts] = useState([]);
 
-  const [editingPost, setEditingPost] =
-    useState(null);
+  // const [editingPost, setEditingPost] =  useState(null);
 
-  const [showDeleteModal, setShowDeleteModal] =
-    useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
-  const [selectedPostId, setSelectedPostId] =
-    useState(null);
+  const [selectedPostId, setSelectedPostId] = useState(null);
 
-  const [title, setTitle] = useState("");
+  // const [title, setTitle] = useState("");
 
-  const [content, setContent] =
-    useState("");
+  // const [content, setContent] = useState("");
 
-  const [image, setImage] =
-    useState(null);
+  // const [image, setImage] = useState(null);
 
   useEffect(() => {
 
@@ -166,6 +163,18 @@ export default function ManagePostsPage() {
 
   };
 
+  function stripHtml(html) {
+
+  const doc =
+    new DOMParser()
+      .parseFromString(
+        html,
+        "text/html"
+      );
+
+  return doc.body.textContent || "";
+}
+
   return (
 
     <div className="manage-posts-page">
@@ -195,60 +204,62 @@ export default function ManagePostsPage() {
 
             <div className="post-info">
 
-              {
+              
 
-                editingPost === post._id
+                {/* // editingPost === post._id
 
-                ?
+                // ?
 
-                <>
+                // <>
 
-                  <input
-                    value={title}
-                    onChange={(e) =>
-                      setTitle(
-                        e.target.value
-                      )
-                    }
-                  />
+                //   <input
+                //     value={title}
+                //     onChange={(e) =>
+                //       setTitle(
+                //         e.target.value
+                //       )
+                //     }
+                //   />
 
-                  <textarea
-                    rows="5"
-                    value={content}
-                    onChange={(e) =>
-                      setContent(
-                        e.target.value
-                      )
-                    }
-                  />
+                //   <textarea
+                //     rows="5"
+                //     value={content}
+                //     onChange={(e) =>
+                //       setContent(
+                //         e.target.value
+                //       )
+                //     }
+                //   />
 
-                  <input
-                    type="file"
-                    onChange={(e) =>
-                      setImage(
-                        e.target.files[0]
-                      )
-                    }
-                  />
+                //   <input
+                //     type="file"
+                //     onChange={(e) =>
+                //       setImage(
+                //         e.target.files[0]
+                //       )
+                //     }
+                //   />
 
-                  <button
-                    onClick={updatePost}
-                  >
-                    Save
-                  </button>
+                //   <button
+                //     onClick={updatePost}
+                //   >
+                //     Save
+                //   </button>
 
-                </>
+                // </>
 
-                :
+                // : */}
 
-                <>
+                
 
                   <h3>{post.title}</h3>
+
+                  
 
                   <p>
 
                     {
-                      post.content
+                      stripHtml(post.content)
                         .slice(0, 120)
                     }
 
@@ -256,15 +267,12 @@ export default function ManagePostsPage() {
 
                   </p>
 
-                </>
+               
 
-              }
+              
 
             </div>
 
-            {
-
-              editingPost !== post._id && (
 
                 <div className="post-actions">
 
@@ -273,7 +281,8 @@ export default function ManagePostsPage() {
                     className="action-icon"
 
                     onClick={() =>
-                      startEdit(post)
+                      navigate(`/admin/edit-post/${post._id}`)
+                      // startEdit(post)
                     }
 
                   />
@@ -292,9 +301,7 @@ export default function ManagePostsPage() {
 
                 </div>
 
-              )
-
-            }
+             
 
           </div>
 

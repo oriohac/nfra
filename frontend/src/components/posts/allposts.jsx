@@ -64,6 +64,18 @@ export default function AllPosts() {
 
     }, [page]);
 
+    function stripHtml(html) {
+
+  const doc =
+    new DOMParser()
+      .parseFromString(
+        html,
+        "text/html"
+      );
+
+  return doc.body.textContent || "";
+}
+
     return (
 
         <div className="all-posts-page">
@@ -96,8 +108,9 @@ export default function AllPosts() {
                             </small>
 
                             <h3>{post.title}</h3>
+                            
 
-                            <p>{post.content}</p>
+                            <p>{stripHtml(post.content)}</p>
 
                         </div>
 

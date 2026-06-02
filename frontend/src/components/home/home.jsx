@@ -64,6 +64,18 @@ export default function Home() {
     fetchPosts();
 
   }, []);
+
+  function stripHtml(html) {
+
+  const doc =
+    new DOMParser()
+      .parseFromString(
+        html,
+        "text/html"
+      );
+
+  return doc.body.textContent || "";
+}
   return (
     <div className="page-container">
       <main className="main-content">
@@ -135,7 +147,7 @@ export default function Home() {
 
                     <h3>{post.title}</h3>
 
-                    <p>{post.content}</p>
+                    <p>{stripHtml(post.content)}</p>
 
                   </div>
 

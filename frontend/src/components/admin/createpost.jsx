@@ -4,6 +4,7 @@ import api from "../../api/api";
 import { toast } from "react-toastify";
 import "./createpost.css"
 import imageCompression from "browser-image-compression";
+import PostEditor from "../editor/posteditor";
 
 export default function CreatePost() {
 
@@ -91,14 +92,14 @@ export default function CreatePost() {
                     accept="image/*"
                     onChange={async (e) => {
                         const file = e.target.files[0];
-                        if(!file) return;
+                        if (!file) return;
                         const compressedFile = await imageCompression(
-                                file,
-                                {
-                                    maxSizeMB: 0.4,
-                                    maxWidthOrHeight: 1200
-                                }
-                            );
+                            file,
+                            {
+                                maxSizeMB: 0.4,
+                                maxWidthOrHeight: 1200
+                            }
+                        );
 
                         setImage(compressedFile);
 
@@ -107,10 +108,6 @@ export default function CreatePost() {
                                 compressedFile
                             )
                         );
-                        // setImage(file);
-                        // setPreview(
-                        //     URL.createObjectURL(file)
-                        // );
                     }
                     }
                 />
@@ -131,15 +128,23 @@ export default function CreatePost() {
 
 
 
-                <textarea
+                {/* <textarea
                     placeholder="Post content"
                     rows="6"
                     value={content}
                     onChange={(e) =>
                         setContent(e.target.value)
                     }
+                /> */}
+
+                <PostEditor
+
+                    content={content}
+
+                    setContent={setContent}
+
                 />
-                
+
 
                 <button type="submit">
                     Publish Post
