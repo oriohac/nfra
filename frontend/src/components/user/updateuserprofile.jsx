@@ -51,7 +51,14 @@ export default function UpdateUserProfile({ onClose }) {
 
       const data = new FormData();
 
-      const formattedDOB = formData.dateOfBirth.toISOString().split("T")[0];
+      // const formattedDOB = formData.dateOfBirth.toISOString().split("T")[0];
+      const dob = formData.dateOfBirth;
+
+      const formattedDOB = `${dob.getFullYear()}-${String(
+        dob.getMonth() + 1
+      ).padStart(2, "0")}-${String(
+        dob.getDate()
+      ).padStart(2, "0")}`;
 
 
       data.append("dateOfBirth", formattedDOB);
@@ -163,13 +170,13 @@ export default function UpdateUserProfile({ onClose }) {
   const validateStep1 = () => {
 
     if (
-      !formData.dateOfBirth 
+      !formData.dateOfBirth
     ) {
       toast.error("Please select date of birth");
       return false;
     }
 
-   
+
 
     if (!formData.phone.trim()) {
       toast.error("Phone number is required");
