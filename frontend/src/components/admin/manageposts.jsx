@@ -195,9 +195,7 @@ export default function ManagePostsPage() {
 
               className="post-image"
 
-              src={
-                `${BASE_URL}${post.image}`
-              }
+              src={post.image}
 
               alt={post.title}
 

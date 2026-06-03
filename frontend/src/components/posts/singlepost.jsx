@@ -50,7 +50,7 @@ export default function SinglePost() {
     <div className="single-post-page">
 
       <img
-        src={`${BASE_URL}${post.image}`}
+        src={post.image}
         alt={post.title}
       />
 

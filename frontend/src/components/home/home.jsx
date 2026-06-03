@@ -134,7 +134,7 @@ export default function Home() {
                 >
 
                   <img
-                    src={`${BASE_URL}${post.image}`}
+                    src={post.image}
                     alt={post.title}
                   />
 

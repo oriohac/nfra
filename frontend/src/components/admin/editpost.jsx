@@ -49,7 +49,7 @@ export default function EditPostPage() {
       setContent(post.content);
 
       setPreview(
-        `${BASE_URL}${post.image}`
+        post.image
       );
 
     } catch (error) {

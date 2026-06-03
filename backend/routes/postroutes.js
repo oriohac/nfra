@@ -24,7 +24,7 @@ router.post(
 
           content: req.body.content,
 
-          image: `/uploads/posts/${req.file.filename}`
+          image: req.file.path
 
         });
 
@@ -100,7 +100,7 @@ router.patch(
       if (req.file) {
 
         updateData.image =
-          `/uploads/posts/${req.file.filename}`;
+          req.file.path;
 
       }
 

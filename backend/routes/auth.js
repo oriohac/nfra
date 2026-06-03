@@ -138,7 +138,7 @@ router.put("/onboarding/:id",
 
           profilePhoto:
             req.file
-              ? `/uploads/${req.file.filename}`
+              ? req.file.path
               : null,
 
           onboardingCompleted: true,
@@ -227,7 +227,7 @@ router.patch("/user/:id",
         }
 
         updatedData.profilePhoto =
-          `/uploads/${req.file.filename}`;
+          req.file.path;
       }
 
       const updatedUser = await User.findByIdAndUpdate(
