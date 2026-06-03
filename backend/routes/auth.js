@@ -202,8 +202,8 @@ router.get("/user/:id", async (req, res) => {
 
 });
 
-const fs = require("fs");
-const path = require("path");
+// const fs = require("fs");
+// const path = require("path");
 router.patch("/user/:id",
   upload.single("profilePhoto"),
   async (req, res) => {
@@ -227,28 +227,46 @@ router.patch("/user/:id",
       };
 
       // only update image if a new one exists
-      if (req.file) {
-        // delete old image if it exists
-        if (user.profilePhoto) {
+      // if (req.file) {
+      //   // delete old image if it exists
+      //   if (user.profilePhoto) {
 
-          const oldImagePath = path.join(
-            __dirname,
-            "..",
-            user.profilePhoto
+      //     // const oldImagePath = path.join(
+      //     //   __dirname,
+      //     //   "..",
+      //     //   user.profilePhoto
+      //     // );
+
+      //     // if (fs.existsSync(oldImagePath)) {
+      //     //   fs.unlink(oldImagePath, (err) => {
+      //     //     if (err) {
+      //     //       console.log("Old image delete failed:", err);
+      //     //     }
+      //     //   });
+      //     // }
+      // //   }
+
+      //   updatedData.profilePhoto =
+      //     req.file.path;
+      // }
+
+       // 👇 HANDLE IMAGE WITH CLOUDINARY
+      if (req.file) {
+        const result = await new Promise((resolve, reject) => {
+          const stream = cloudinary.uploader.upload_stream(
+            { folder: "nfra/profile-images" },
+            (error, result) => {
+              if (error) return reject(error);
+              resolve(result);
+            }
           );
 
-          if (fs.existsSync(oldImagePath)) {
-            fs.unlink(oldImagePath, (err) => {
-              if (err) {
-                console.log("Old image delete failed:", err);
-              }
-            });
-          }
-        }
+          stream.end(req.file.buffer);
+        });
 
-        updatedData.profilePhoto =
-          req.file.path;
+        updatedData.profilePhoto = result.secure_url;
       }
+
 
       const updatedUser = await User.findByIdAndUpdate(
 

@@ -8,6 +8,8 @@ const adminOnly = require("../middleware/adminonly");
 
 const upload = require("../middleware/uploadpostimage");
 
+const cloudinary = require("../config/cloudinary");
+
 router.post(
   "/",
   adminOnly,
@@ -15,18 +17,35 @@ router.post(
   async (req, res) => {
 
     try {
-        console.log(req.file);
-        console.log(req.body);
+      let imageUrl = "";
+
+      if (req.file) {
+        const result = await new Promise((resolve, reject) => {
+          const stream = cloudinary.uploader.upload_stream(
+            { folder: "nfra/posts" },
+            (error, result) => {
+              if (error) return reject(error);
+              resolve(result);
+            }
+          );
+
+          stream.end(req.file.buffer);
+        });
+
+        imageUrl = result.secure_url;
+      }
+      console.log(req.file);
+      console.log(req.body);
 
       const post = await Post.create({
 
-          title: req.body.title,
+        title: req.body.title,
 
-          content: req.body.content,
+        content: req.body.content,
 
-          image: req.file.path
+        image: imageUrl,
 
-        });
+      });
 
       res.json(post);
 
@@ -99,8 +118,18 @@ router.patch(
 
       if (req.file) {
 
-        updateData.image =
-          req.file.path;
+        const result = await new Promise((resolve, reject) => {
+          const stream = cloudinary.uploader.upload_stream(
+            { folder: "nfra/posts" },
+            (error, result) => {
+              if (error) return reject(error);
+              resolve(result);
+            }
+          );
+
+          stream.end(req.file.buffer);
+        });
+        updateData.image = result.secure_url;
 
       }
 
@@ -172,11 +201,11 @@ router.get("/", async (req, res) => {
     const posts =
       await Post.find()
 
-      .sort({ createdAt: -1 })
+        .sort({ createdAt: -1 })
 
-      .skip(skip)
+        .skip(skip)
 
-      .limit(limit);
+        .limit(limit);
 
     res.json({
 
