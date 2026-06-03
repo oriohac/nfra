@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import "./editpost.css";
 
 import PostEditor from "../editor/posteditor";
+import { BASE_URL } from "../../../config";
 
 export default function EditPostPage() {
 
@@ -48,7 +49,7 @@ export default function EditPostPage() {
       setContent(post.content);
 
       setPreview(
-        `http://localhost:5000${post.image}`
+        `${BASE_URL}${post.image}`
       );
 
     } catch (error) {

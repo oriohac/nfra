@@ -7,6 +7,7 @@ import {
 import api from "../../api/api";
 
 import "./singlepost.css";
+import { BASE_URL } from "../../../config";
 
 export default function SinglePost() {
 
@@ -49,7 +50,7 @@ export default function SinglePost() {
     <div className="single-post-page">
 
       <img
-        src={`http://localhost:5000${post.image}`}
+        src={`${BASE_URL}${post.image}`}
         alt={post.title}
       />
 

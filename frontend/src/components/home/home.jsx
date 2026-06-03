@@ -3,6 +3,7 @@ import introimage from '../../assets/hanger.png'
 import './home.css'
 import { useEffect, useState } from "react";
 import api from "../../api/api";
+import { BASE_URL } from "../../../config";
 const user = {
   userName: "Chikezirim Orioha",
   image: "https://react.dev/images/docs/scientists/yXOvdOSs.jpg",
@@ -133,7 +134,7 @@ export default function Home() {
                 >
 
                   <img
-                    src={`http://localhost:5000${post.image}`}
+                    src={`${BASE_URL}${post.image}`}
                     alt={post.title}
                   />
 

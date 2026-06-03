@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { BASE_URL } from "../../../config";
 import api from "../../api/api";
 
 import "./allposts.css";
@@ -95,7 +95,7 @@ export default function AllPosts() {
                     >
 
                         <img
-                            src={`http://localhost:5000${post.image}`}
+                            src={`${BASE_URL}${post.image}`}
                             alt={post.title}
                         />
 

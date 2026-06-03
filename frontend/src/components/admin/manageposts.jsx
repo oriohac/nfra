@@ -12,6 +12,7 @@ import api from "../../api/api";
 import { toast } from "react-toastify";
 
 import "./manageposts.css";
+import { BASE_URL } from "../../../config";
 
 export default function ManagePostsPage() {
 
@@ -195,7 +196,7 @@ export default function ManagePostsPage() {
               className="post-image"
 
               src={
-                `http://localhost:5000${post.image}`
+                `${BASE_URL}${post.image}`
               }
 
               alt={post.title}

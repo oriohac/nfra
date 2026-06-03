@@ -11,6 +11,7 @@ import {
   FaSave,
 } from "react-icons/fa";
 import { toast } from "react-toastify";
+import { BASE_URL } from "../../../config";
 
 export default function UserProfile() {
   const [showUpdateProfile, setShowUpdateProfile] = useState(false);
@@ -169,7 +170,7 @@ export default function UserProfile() {
               src={
                 profilePhoto
                   ? URL.createObjectURL(profilePhoto)
-                  : `http://localhost:5000${profile.profilePhoto}?${Date.now()}`
+                  : `${BASE_URL}${profile.profilePhoto}?${Date.now()}`
               }
               alt="profile"
               className="avatar"
