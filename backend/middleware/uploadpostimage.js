@@ -5,7 +5,7 @@ const { CloudinaryStorage } = require("multer-storage-cloudinary");
 
 // const path = require("path");
 
-const storage = new CloudinaryStorage({
+const storage =  CloudinaryStorage({
   cloudinary,
 
   params: {
