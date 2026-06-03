@@ -4,8 +4,9 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const upload = require("../middleware/uploadprofileimage");
 const FitnessTestInterest = require("../models/FitnessTestInterest");
-const auth = require( "../middleware/auth");
+const auth = require("../middleware/auth");
 const { getZone, getFemaleZone } = require("../utils/getZone");
+const cloudinary = require("../config/cloudinary");
 
 const router = express.Router();
 
@@ -97,6 +98,25 @@ router.put("/onboarding/:id",
   async (req, res) => {
 
     try {
+      let profilePhotoUrl = "";
+
+      if (req.file) {
+        const result = await new Promise((resolve, reject) => {
+          const stream = cloudinary.uploader.upload_stream(
+            {
+              folder: "nfra/profile-images",
+            },
+            (error, result) => {
+              if (error) return reject(error);
+              resolve(result);
+            }
+          );
+
+          stream.end(req.file.buffer);
+        });
+
+        profilePhotoUrl = result.secure_url;
+      }
 
       const maleZone = getZone(
         req.body.state,
@@ -136,10 +156,10 @@ router.put("/onboarding/:id",
 
           zone: zone,
 
-          profilePhoto:
-            req.file
-              ? req.file.path
-              : null,
+          profilePhoto: profilePhotoUrl,
+            // req.file
+            //   ? req.file.path
+            //   : null,
 
           onboardingCompleted: true,
 

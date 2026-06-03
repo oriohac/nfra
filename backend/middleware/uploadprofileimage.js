@@ -1,22 +1,25 @@
 const multer = require("multer");
 
 const cloudinary = require("../config/cloudinary");
-const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 
-const storage =  CloudinaryStorage({
-  cloudinary,
+const uploadToCloudinary = async (fileBuffer) => {
+  return new Promise((resolve, reject) => {
+    const stream = cloudinary.uploader.upload_stream(
+      {
+        folder: "nfra/profile-images",
+      },
+      (error, result) => {
+        if (error) return reject(error);
+        resolve(result);
+      }
+    );
 
-  params: {
-    folder: "nfra/profile-images",
-
-    allowed_formats: [
-      "jpg",
-      "jpeg",
-      "png",
-      "webp",
-    ],
-  },
-});
+    stream.end(fileBuffer);
+  });
+};
+module.exports = { upload, uploadToCloudinary };
 // const storage = multer.diskStorage({
 
 //   destination: (req, file, cb) => {
@@ -32,6 +35,6 @@ const storage =  CloudinaryStorage({
 
 // });
 
-const upload = multer({ storage });
+// const upload = multer({ storage });
 
-module.exports = upload;
+// module.exports = upload;
