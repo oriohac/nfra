@@ -106,30 +106,19 @@ FitnessTestInterest() {
         <div className="fitness-actions">
 
           <button
-
             className="cancel-btn"
-
-            onClick={() =>
-              navigate(-1)
-            }
+            onClick={() => navigate(-1) }
           >
-
             Cancel
-
           </button>
-
           <button
-
             className="attend-btn"
-
-            onClick={
-              handleAttend
-            }
+            onClick={ handleAttend }
           >
-
             Attending
-
           </button>
+
+          
 
         </div>
 

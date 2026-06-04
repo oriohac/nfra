@@ -114,7 +114,12 @@ export default function UserProfile() {
 
 
   if (!profile) {
-    return <h2>No profile found</h2>;
+    return (
+    <div className="user-loader">
+      <div className="spinner"></div>
+      <p>Loading dashboard...</p>
+    </div>
+  );
   }
 
   const cards = [
@@ -170,7 +175,7 @@ export default function UserProfile() {
               src={
                 profilePhoto
                   ? URL.createObjectURL(profilePhoto)
-                  : `${BASE_URL}${profile.profilePhoto}?${Date.now()}`
+                  : profile.profilePhoto
               }
               alt="profile"
               className="avatar"

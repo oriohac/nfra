@@ -16,31 +16,6 @@ export default function AllPosts() {
 
 
 
-    const fetchPosts = async () => {
-
-        try {
-
-            const response =
-                await api.get(
-                    `/posts?page=${page}`
-                );
-
-            setPosts(
-                response.data.posts
-            );
-
-            setTotalPages(
-                response.data.totalPages
-            );
-
-        } catch (error) {
-
-            console.log(error);
-
-        }
-
-    };
-
     useEffect(() => {
 
         const fetchPosts = async () => {
