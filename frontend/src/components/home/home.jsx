@@ -1,5 +1,5 @@
 import { useNavigate, Link } from "react-router-dom";
-import introimage from '../../assets/hanger.png'
+import introimage from '../../assets/refs.jpg'
 import './home.css'
 import { useEffect, useState } from "react";
 import api from "../../api/api";
