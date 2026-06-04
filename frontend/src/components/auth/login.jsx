@@ -13,8 +13,9 @@ export default function Login() {
         password: ""
     });
     const location = useLocation();
+    const [loading, setLoading] = useState(false);
 
-const from = location.state?.from?.pathname ; //|| "/"
+    const from = location.state?.from?.pathname; //|| "/"
 
     const handleChange = (e) => {
 
@@ -30,7 +31,7 @@ const from = location.state?.from?.pathname ; //|| "/"
     const handleLogin = async () => {
 
         try {
-
+            setLoading(true);
             const res = await api.post(
                 "/auth/login",
                 {
@@ -63,7 +64,7 @@ const from = location.state?.from?.pathname ; //|| "/"
 
             } else {
 
-                
+
                 navigate(from || "/userprofile");
                 // navigate("/userprofile");
                 toast.success("Login success");
@@ -74,6 +75,8 @@ const from = location.state?.from?.pathname ; //|| "/"
             console.log(error);
 
             toast.error("Login failed");
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -97,14 +100,19 @@ const from = location.state?.from?.pathname ; //|| "/"
                     <input className="formfield" name='email' value={loginData.email} onChange={handleChange} placeholder="Email" />
                     <input className="formfield" name='password' value={loginData.password} onChange={handleChange} placeholder="Password" type="password" />
 
-                    <input
-                        type="button"
-                        value="Login"
+                    <button
                         className="authbutton"
-                        onClick={() => {
-                            handleLogin()
-                        }}
-                    />
+                        onClick={handleLogin}
+                        disabled={loading}
+                    >
+
+                        {loading ? (
+                            <div className="button-spinner"></div>
+                        ) : (
+                            "Login"
+                        )}
+
+                    </button>
 
                     <p>
                         Don't have an account? <Link to="/signup">Create one</Link>

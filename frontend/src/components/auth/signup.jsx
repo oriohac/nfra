@@ -6,6 +6,7 @@ import api from '../../api/api';
 
 export default function Signup() {
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
 
     const [signupData, setSignupData] = useState({
         firstName: "",
@@ -35,6 +36,7 @@ export default function Signup() {
             refId: signupData.refId,
             password: signupData.password,
         };
+        setLoading(true);
         try {
             if (!signupData.confirmpassword || !signupData.password || !signupData.refId || !signupData.email || !signupData.firstName || !signupData.lastName) {
                 toast.error("Fill all fields")
@@ -67,6 +69,8 @@ export default function Signup() {
             toast.error(
                 error.response?.data?.message || "Signup failed"
             );
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -95,15 +99,18 @@ export default function Signup() {
                     <input className="formfield" value={signupData.password} onChange={handleChange} name='password' placeholder="Password" type="password" required />
                     <input className="formfield" value={signupData.confirmpassword} onChange={handleChange} name='confirmpassword' placeholder="Confirm password" type="password" required />
 
-                    <input
-                        type="button"
-                        value="Sign Up"
+                    <button
                         className="authbutton"
-                        onClick={() => {
-                            handleSignup()
+                        onClick={handleSignup}
+                        disabled={loading}
+                    >
+                        {loading ? (
+                            <div className="button-spinner"></div>
+                        ) : (
+                            "Sign up"
+                        )}
 
-                        }}
-                    />
+                    </button>
 
                     <p>
                         Already have an account? <Link to="/login">Login</Link>
