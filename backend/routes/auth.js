@@ -7,6 +7,7 @@ const FitnessTestInterest = require("../models/FitnessTestInterest");
 const auth = require("../middleware/auth");
 const { getZone, getFemaleZone } = require("../utils/getZone");
 const cloudinary = require("../config/cloudinary");
+const { forgotPassword, resetPassword, updatePassword, } = require("../controller/authcontroller");
 
 const router = express.Router();
 
@@ -157,9 +158,9 @@ router.put("/onboarding/:id",
           zone: zone,
 
           profilePhoto: profilePhotoUrl,
-            // req.file
-            //   ? req.file.path
-            //   : null,
+          // req.file
+          //   ? req.file.path
+          //   : null,
 
           onboardingCompleted: true,
 
@@ -250,7 +251,7 @@ router.patch("/user/:id",
       //     req.file.path;
       // }
 
-       // 👇 HANDLE IMAGE WITH CLOUDINARY
+      // 👇 HANDLE IMAGE WITH CLOUDINARY
       if (req.file) {
         const result = await new Promise((resolve, reject) => {
           const stream = cloudinary.uploader.upload_stream(
@@ -361,6 +362,21 @@ router.post(
     }
 
   }
+);
+
+router.patch(
+  "/update-password/:id",
+  updatePassword,
+);
+
+router.post(
+    "/forgot-password",
+    forgotPassword
+);
+
+router.post(
+    "/reset-password/:token",
+    resetPassword
 );
 
 

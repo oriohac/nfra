@@ -22,11 +22,9 @@
   gap: 18px;
 
   background:
-    linear-gradient(
-      135deg,
+    linear-gradient(135deg,
       #f8fafc,
-      #eef2ff
-    );
+      #eef2ff);
 }
 
 .spinner {
@@ -64,7 +62,7 @@
 
   border-radius: 20px;
 
-  box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
 }
 
 .profile-header {
@@ -75,7 +73,8 @@
 
   margin-bottom: 20px;
 }
-.profile-info{
+
+.profile-info {
   flex: 1;
   text-align: right;
 }
@@ -102,7 +101,7 @@
 .edit-btn {
   margin-top: 25px;
 
-  width: 100%;
+  width: 50%;
 
   padding: 12px;
 
@@ -116,17 +115,46 @@
   border-radius: 12px;
 }
 
-.dashboard-boxes{
+.password-btn {
+  margin-top: 25px;
+
+  width: 50%;
+
+  padding: 12px;
+
+  border: none;
+
+  align-content: center;
+
+  background: #1e3a8a;
+  color: white;
+
+  font-size: 15px;
+
+  font-weight: bold;
+
+  cursor: pointer;
+
+  border-radius: 12px;
+}
+
+.profileandpassword {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+}
+
+.dashboard-boxes {
   margin-top: 30px;
 
   display: grid;
 
-  grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 
   gap: 20px;
 }
 
-.dashboard-card{
+.dashboard-card {
   background: white;
 
   border-radius: 18px;
@@ -137,18 +165,18 @@
 
   transition: 0.3s;
 
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 
   text-align: center;
 }
 
-.dashboard-card:hover{
+.dashboard-card:hover {
   transform: translateY(-5px);
 
   background: #f5f7ff;
 }
 
-.dashboard-icon{
+.dashboard-icon {
   font-size: 40px;
 
   margin-bottom: 15px;
@@ -156,13 +184,13 @@
   color: #1e3a8a;
 }
 
-.dashboard-card p{
+.dashboard-card p {
   font-size: 16px;
 
   font-weight: 600;
 }
 
-.logout-btn{
+.logout-btn {
   padding: 12px;
 
   border-radius: 20px;
@@ -181,7 +209,7 @@
 }
 
 .edit-btn,
-.save-btn{
+.save-btn {
   margin-top: 25px;
 
   padding: 12px 20px;
@@ -195,7 +223,7 @@
   color: white;
 
   font-size: 15px;
-
+  width: 50%;
   font-weight: bold;
 
   cursor: pointer;
@@ -203,11 +231,12 @@
   display: flex;
 
   align-items: center;
+  justify-content: center;
 
   gap: 10px;
 }
 
-.profile-grid input{
+.profile-grid input {
   margin-top: 8px;
 
   padding: 10px;
@@ -219,7 +248,7 @@
   width: 100%;
 }
 
-.profile-grid select{
+.profile-grid select {
   margin-top: 8px;
 
   padding: 10px;
@@ -232,6 +261,7 @@
 
   background: white;
 }
+
 /* Make Icon Edit better */
 .avatar-container {
   position: relative;
@@ -268,11 +298,12 @@
 
 .edit-actions {
   display: flex;
+  flex-direction: row;
   gap: 10px;
 }
 
 .cancel-btn {
- margin-top: 25px;
+  margin-top: 25px;
 
   padding: 12px 20px;
 
@@ -290,9 +321,13 @@
 
   cursor: pointer;
 
+  width: 50%;
+
   display: flex;
 
   align-items: center;
+
+  justify-content: center;
 
   gap: 10px;
 }
@@ -300,6 +335,7 @@
 .cancel-btn:hover {
   background: #b3b3b3;
 }
+
 /* MOBILE */
 @media (max-width: 600px) {
   .profile-header {

@@ -18,6 +18,9 @@ import ManagePostsPage from './components/admin/manageposts';
 import EditPostPage from './components/admin/editpost';
 import FitnessTestInterest from './components/fitness/fitnesstestinterest';
 import FitnessTestAttendees from './components/admin/fitnesstestattendees';
+import UpdatePassword from './components/user/updatepassword';
+import ForgotPassword from './components/auth/forgotpassword';
+import ResetPassword from './components/auth/resetpassword';
 
 function App() {
 
@@ -88,6 +91,31 @@ function App() {
               <FitnessTestAttendees />
             </ProtectedRoute>
           }></Route>
+          <Route
+            path="/update-password"
+            element={
+              <ProtectedRoute roleRequired="user">
+                <UpdatePassword />
+              </ProtectedRoute>
+            }
+          >
+          </Route>
+          <Route
+            path="/forgot-password"
+            element={
+             
+                <ForgotPassword />
+            }
+          >
+          </Route>
+
+          <Route
+            path="/reset-password/:token"
+            element={
+                <ResetPassword />
+            }
+          >
+          </Route>
         </Route>
 
         <Route path="/login" element={<Login />}></Route>

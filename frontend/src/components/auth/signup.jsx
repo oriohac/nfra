@@ -2,11 +2,15 @@ import './auth.css';
 import { useNavigate, Link } from "react-router-dom";
 import { useState } from "react";
 import { toast } from 'react-toastify';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import api from '../../api/api';
 
 export default function Signup() {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     const [signupData, setSignupData] = useState({
         firstName: "",
@@ -96,9 +100,25 @@ export default function Signup() {
                     <input className="formfield" value={signupData.lastName} onChange={handleChange} name='lastName' placeholder="Last name" required />
                     <input className="formfield" value={signupData.email} onChange={handleChange} name='email' placeholder="Email" required />
                     <input className="formfield" value={signupData.refId.toUpperCase().replaceAll(" ", "")} onChange={handleChange} name='refId' placeholder="Ref ID" required />
-                    <input className="formfield" value={signupData.password} onChange={handleChange} name='password' placeholder="Password" type="password" required />
-                    <input className="formfield" value={signupData.confirmpassword} onChange={handleChange} name='confirmpassword' placeholder="Confirm password" type="password" required />
+                    <div className="password-field">
+                        <input className="formfield" value={signupData.password} onChange={handleChange} name='password' placeholder="Password" type={showPassword ? "text" : "password"} required />
+                        <span
+                            className="password-toggle"
+                            onClick={() => setShowPassword(!showPassword)}
+                        >
+                            {showPassword ? <FaEyeSlash /> : <FaEye />}
+                        </span>
+                    </div>
 
+                    <div className="password-field">
+                        <input className="formfield" value={signupData.confirmpassword} onChange={handleChange} name='confirmpassword' placeholder="Confirm password" type={showConfirmPassword ? "text" : "password"} required />
+                        <span
+                            className="password-toggle"
+                            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                        >
+                            {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+                        </span>
+                    </div>
                     <button
                         className="authbutton"
                         onClick={handleSignup}

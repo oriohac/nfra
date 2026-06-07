@@ -2,6 +2,7 @@ import './auth.css';
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import { useState } from 'react';
 import { toast } from 'react-toastify';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import UpdateUserProfile from '../user/updateuserprofile';
 import api from '../../api/api';
 
@@ -14,6 +15,7 @@ export default function Login() {
     });
     const location = useLocation();
     const [loading, setLoading] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
 
     const from = location.state?.from?.pathname; //|| "/"
 
@@ -66,7 +68,6 @@ export default function Login() {
 
 
                 navigate(from || "/userprofile");
-                // navigate("/userprofile");
                 toast.success("Login success");
             }
 
@@ -98,7 +99,22 @@ export default function Login() {
                 <div className="authform">
 
                     <input className="formfield" name='email' value={loginData.email} onChange={handleChange} placeholder="Email" />
-                    <input className="formfield" name='password' value={loginData.password} onChange={handleChange} placeholder="Password" type="password" />
+                    <div className="password-field">
+                           
+                        <input className="formfield" name='password' value={loginData.password} onChange={handleChange} placeholder="Password" type={showPassword ? "text" : "password"} />
+                        <span
+                            className='password-toggle'
+                            onClick={() => setShowPassword(!showPassword)}
+                        >
+                            {showPassword ? <FaEyeSlash /> : <FaEye />}
+                        </span>
+                    </div>
+                    <p className="forgot-password">
+                        <Link to="/forgot-password">
+                            Forgot Password?
+                        </Link>
+                    </p>
+                 
 
                     <button
                         className="authbutton"

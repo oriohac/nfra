@@ -11,10 +11,8 @@ import {
   FaSave,
 } from "react-icons/fa";
 import { toast } from "react-toastify";
-import { BASE_URL } from "../../../config";
 
 export default function UserProfile() {
-  const [showUpdateProfile, setShowUpdateProfile] = useState(false);
   const navigate = useNavigate();
   const [profile, setProfile] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -115,11 +113,11 @@ export default function UserProfile() {
 
   if (!profile) {
     return (
-    <div className="user-loader">
-      <div className="spinner"></div>
-      <p>Loading dashboard...</p>
-    </div>
-  );
+      <div className="user-loader">
+        <div className="spinner"></div>
+        <p>Loading dashboard...</p>
+      </div>
+    );
   }
 
   const cards = [
@@ -142,19 +140,19 @@ export default function UserProfile() {
   ];
 
   const formattedDate =
-  new Date(profile.dateOfBirth)
-    .toLocaleDateString(
-      "en-GB",
-      {
+    new Date(profile.dateOfBirth)
+      .toLocaleDateString(
+        "en-NG",
+        {
 
-        day: "2-digit",
+          day: "2-digit",
 
-        month: "short",
+          month: "short",
 
-        year: "numeric"
+          year: "numeric"
 
-      }
-    );
+        }
+      );
 
   return (
     <div className="profile-page">
@@ -203,6 +201,7 @@ export default function UserProfile() {
             <h2> {isEditing
               ? (<input
                 type="text"
+                style={{marginBottom:12}}
                 value={formData.firstName}
                 onChange={(e) =>
                   setFormData({
@@ -216,6 +215,7 @@ export default function UserProfile() {
               : (profile.firstName)} {isEditing
                 ? (<input
                   type="text"
+                  style={{marginBottom:12}}
                   value={formData.lastName}
                   onChange={(e) =>
                     setFormData({
@@ -319,15 +319,26 @@ export default function UserProfile() {
         </div>
 
         {!isEditing ? (
-          <button
-            className="edit-btn"
-            onClick={() => {
-              setInitialFormData(formData);
-              setIsEditing(true);
-            }}
-          >
-            <FaEdit /> Edit Profile
-          </button>
+          <div className="profileandpassword">
+
+
+            <button
+              className="edit-btn"
+              onClick={() => {
+                setInitialFormData(formData);
+                setIsEditing(true);
+              }}
+            >
+              <FaEdit /> Edit Profile
+            </button>
+
+            <button
+              className="password-btn"
+              onClick={() => navigate("/update-password")}
+            >
+              Change Password
+            </button>
+          </div>
         ) : (
           <div className="edit-actions">
             <button className="save-btn" onClick={handleSave}>
@@ -344,8 +355,11 @@ export default function UserProfile() {
             >
               Cancel
             </button>
+
           </div>
         )}
+
+
 
 
         {/* DASHBOARD BOXES */}
