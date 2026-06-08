@@ -28,16 +28,24 @@ const forgotPassword = async (req, res) => {
 
         await user.save();
 
-        const resetUrl = `https://nfra.onrender.com/api/auth/reset-password/${resetToken}`;
+        const resetUrl = `${process.env.CLIENT_URL}/reset-password/${resetToken}`;
 
         const transporter =
             nodemailer.createTransport({
-                service: "gmail",
+                host: "smtp.gmail.com",
+
+                port: 587,
+
+                secure: false,
                 auth: {
                     user: process.env.EMAIL_USER,
                     pass: process.env.EMAIL_PASS,
                 },
             });
+
+        await transporter.verify();
+
+        console.log("SMTP ready");
 
         await transporter.sendMail({
 
