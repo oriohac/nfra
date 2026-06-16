@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import './userprofile.css';
 import api from "../../api/api";
+import { useProfile } from "../../context/profilecontext";
 import {
   FaBasketballBall,
   FaCalendarPlus,
@@ -14,12 +15,16 @@ import { toast } from "react-toastify";
 
 export default function UserProfile() {
   const navigate = useNavigate();
-  const [profile, setProfile] = useState(null);
+  // const [profile, setProfile] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [profilePhoto, setProfilePhoto] = useState(null);
   const [initialFormData, setInitialFormData] = useState(null);
   const fileInputRef = useRef(null);
-
+const {
+  profile,
+  setProfile,
+  loading,
+} = useProfile();
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -29,41 +34,53 @@ export default function UserProfile() {
   });
 
   useEffect(() => {
+  if (profile) {
+    setFormData({
+      phone: profile.phone || "",
+      grade: profile.grade || "",
+      firstName: profile.firstName || "",
+      lastName: profile.lastName || "",
+      refId: profile.refId || "",
+    });
+  }
+}, [profile]);
 
-    const fetchProfile = async () => {
+  // useEffect(() => {
 
-      try {
+  //   const fetchProfile = async () => {
 
-        const user = JSON.parse(
-          localStorage.getItem("user")
-        );
+  //     try {
 
-        const response = await api.get(
-          `/auth/user/${user._id}`
-        );
+  //       const user = JSON.parse(
+  //         localStorage.getItem("user")
+  //       );
 
-        setProfile(response.data);
-        console.log(response.data)
+  //       const response = await api.get(
+  //         `/auth/user/${user._id}`
+  //       );
 
-        setFormData({
-          phone: response.data.phone || "",
-          grade: response.data.grade || "",
-          firstName: response.data.firstName || "",
-          lastName: response.data.lastName || "",
-          refId: response.data.refId || "",
-        });
+  //       setProfile(response.data);
+  //       console.log(response.data)
 
-      } catch (error) {
+  //       setFormData({
+  //         phone: response.data.phone || "",
+  //         grade: response.data.grade || "",
+  //         firstName: response.data.firstName || "",
+  //         lastName: response.data.lastName || "",
+  //         refId: response.data.refId || "",
+  //       });
 
-        console.log(error);
+  //     } catch (error) {
 
-      }
+  //       console.log(error);
 
-    };
+  //     }
 
-    fetchProfile();
+  //   };
 
-  }, []);
+  //   fetchProfile();
+
+  // }, []);
 
   const handleSave = async () => {
 
@@ -111,7 +128,7 @@ export default function UserProfile() {
 
 
 
-  if (!profile) {
+  if (loading) {
     return (
       <div className="user-loader">
         <div className="spinner"></div>
