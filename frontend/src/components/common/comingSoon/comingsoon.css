@@ -1,0 +1,59 @@
+.coming-soon-page{
+  height: 100vh;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  background: linear-gradient(to right, #1e3a8a, #2563eb);
+}
+
+.coming-soon-card{
+  background: white;
+
+  padding: 50px;
+
+  border-radius: 20px;
+
+  text-align: center;
+
+  width: 90%;
+
+  max-width: 450px;
+
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.coming-soon-card h1{
+  font-size: 40px;
+
+  margin-bottom: 20px;
+
+  color: #1e3a8a;
+}
+
+.coming-soon-card p{
+  font-size: 18px;
+
+  color: #555;
+
+  margin-bottom: 30px;
+}
+
+.coming-soon-card button{
+  padding: 12px 25px;
+
+  border: none;
+
+  border-radius: 10px;
+
+  background: #1e3a8a;
+
+  color: white;
+
+  font-size: 16px;
+
+  cursor: pointer;
+}

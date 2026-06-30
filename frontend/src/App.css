@@ -1,0 +1,182 @@
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
+
+* {
+  box-sizing: border-box;
+}
+.navbar {
+  width: 100%;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 20px 7%;
+
+  background: white;
+
+  position: sticky;
+  top: 0;
+
+  z-index: 1000;
+
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.logo {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #3350f4;
+}
+
+.navlinks {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.nav-link {
+  color: #555;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+.nav-link:hover {
+  color: #3350f4;
+}
+
+.active-link {
+  color: #3350f4;
+  font-weight: 700;
+}
+/* NAVBAR BASE */
+.navbar {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 20px 7%;
+  background: white;
+
+  border-bottom: 1px solid #e5e7eb;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.logo {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #3350f4;
+}
+
+/* NAV LINKS (desktop) */
+.navlinks {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+
+.nav-link {
+  color: #555;
+  font-weight: 500;
+}
+
+/* ACTIVE LINK */
+.active {
+  color: #3350f4;
+  font-weight: 700;
+}
+
+/* HAMBURGER (hidden on desktop) */
+.hamburger {
+  display: none;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  background: rgba(0, 0, 0, 0.3);
+
+  z-index: 10;
+}
+
+.navlinks {
+  z-index: 11;
+  position: relative;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+
+  /* ===== Overlay (blur background) ===== */
+.menu-overlay {
+  position: fixed;
+  inset: 0;
+
+  background: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(6px);
+
+  z-index: 10;
+}
+
+/* ===== Drawer base (hidden state) ===== */
+.navlinks {
+  
+  position: fixed;
+  top: 0;
+  right: 0;
+
+  height: 100vh;
+  width: 260px;
+  border-radius: 20px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(15px);
+
+  display: flex;
+  flex-direction: column;
+  padding: 80px 20px;
+
+  gap: 20px;
+
+  transform: translateX(100%);
+  transition: transform 0.35s ease-in-out;
+
+  z-index: 20;
+
+  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.2);
+}
+
+/* ===== Open state ===== */
+.navlinks.open {
+  transform: translateX(0);
+}
+
+/* ===== Links styling ===== */
+.nav-link {
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 20px;
+}
+
+/* ===== Hamburger (optional improvement) ===== */
+.hamburger {
+  font-size: 26px;
+  cursor: pointer;
+  z-index: 30;
+  display: block;
+}
+}

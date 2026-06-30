@@ -1,0 +1,163 @@
+.single-post-page{
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 0 20px;
+  font-family: Arial, sans-serif;
+  line-height: 1.7;
+  color: #222;
+}
+
+/* Post image */
+.single-post-page img{
+  width: 100%;
+  height: 420px;
+  object-fit: cover;
+  border-radius: 14px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+/* Date */
+.single-post-page small{
+  display: block;
+  color: #888;
+  margin-bottom: 10px;
+  font-size: 13px;
+}
+
+/* Title */
+.single-post-page h1{
+  font-size: 32px;
+  margin-bottom: 15px;
+  color: #111;
+}
+
+/* Content */
+.single-post-page p{
+  font-size: 16px;
+  margin-bottom: 15px;
+}
+
+/* If you're using rich text editor (important) */
+.single-post-page div{
+  font-size: 16px;
+}
+
+.single-post-page h2,
+.single-post-page h3{
+  margin-top: 20px;
+  color: #111;
+}
+
+.single-post-page ul,
+.single-post-page ol{
+  padding-left: 20px;
+  margin-bottom: 15px;
+}
+
+/* .single-post-page a{
+  color: #1e3a8a;
+  text-decoration: underline;
+} */
+
+.single-post-page a {
+
+  display: inline-block;
+
+  background: #2563eb;
+
+  color: white;
+
+  padding: 12px 18px;
+
+  border-radius: 10px;
+
+  text-decoration: none;
+
+  margin-top: 14px;
+}
+
+.full-post-content {
+
+  width: 100%;
+
+  line-height: 1.9;
+
+  font-size: 16px;
+
+  color: #1f2937;
+
+  overflow-wrap: break-word;
+}
+
+.full-post-content * {
+  max-width: 100%;
+}
+
+.full-post-content img {
+
+  max-width: 100%;
+
+  height: auto;
+
+  border-radius: 12px;
+
+  margin: 16px 0;
+}
+
+.full-post-content p {
+  margin-bottom: 18px;
+}
+
+.full-post-content a {
+
+  /* color: #2563eb; */
+font-weight: bold;
+  text-decoration: underline;
+}
+
+.full-post-content h1,
+.full-post-content h2,
+.full-post-content h3 {
+
+  margin-top: 24px;
+
+  margin-bottom: 14px;
+
+  line-height: 1.3;
+}
+
+/* ONLY ENABLE CODE BLOCKS HERE */
+.full-post-content pre {
+
+  white-space: pre-wrap;
+
+  word-break: break-word;
+
+  overflow-wrap: break-word;
+
+  background: transparent;
+
+  color: inherit;
+
+  padding: 0;
+
+  margin: 16px 0;
+
+  font-family: inherit;
+
+  overflow: hidden;
+}
+
+
+
+/* Mobile responsiveness */
+@media (max-width: 768px){
+  .single-post-page img{
+    height: 250px;
+  }
+
+  .single-post-page h1{
+    font-size: 24px;
+  }
+}
