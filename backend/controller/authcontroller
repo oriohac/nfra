@@ -151,7 +151,7 @@ const updatePassword = async (req, res) => {
         const { currentPassword, newPassword } = req.body;
 
         const user = await User.findById(
-            req.params.id
+            req.user.id
         );
 
         if (!user) {

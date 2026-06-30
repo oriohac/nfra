@@ -39,15 +39,12 @@ export default function UpdateUserProfile({ onClose }) {
     dateOfBirth: null,
   });
 
-  const user = JSON.parse(localStorage.getItem("user"));
+
 
   const submitProfile = async () => {
 
     try {
 
-      const user = JSON.parse(
-        localStorage.getItem("user")
-      );
 
       const data = new FormData();
 
@@ -96,7 +93,7 @@ export default function UpdateUserProfile({ onClose }) {
       }
 
       const response = await api.put(
-        `/auth/onboarding/${user._id}`,
+        `/auth/onboarding`,
         data,
         {
           headers: {

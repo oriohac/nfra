@@ -45,42 +45,7 @@ const {
   }
 }, [profile]);
 
-  // useEffect(() => {
 
-  //   const fetchProfile = async () => {
-
-  //     try {
-
-  //       const user = JSON.parse(
-  //         localStorage.getItem("user")
-  //       );
-
-  //       const response = await api.get(
-  //         `/auth/user/${user._id}`
-  //       );
-
-  //       setProfile(response.data);
-  //       console.log(response.data)
-
-  //       setFormData({
-  //         phone: response.data.phone || "",
-  //         grade: response.data.grade || "",
-  //         firstName: response.data.firstName || "",
-  //         lastName: response.data.lastName || "",
-  //         refId: response.data.refId || "",
-  //       });
-
-  //     } catch (error) {
-
-  //       console.log(error);
-
-  //     }
-
-  //   };
-
-  //   fetchProfile();
-
-  // }, []);
 
   const handleSave = async () => {
 
@@ -103,7 +68,7 @@ const {
       }
 
       const response = await api.patch(
-        `/auth/user/${user._id}`,
+        `/auth/user/me`,
         form,
         {
           headers: {

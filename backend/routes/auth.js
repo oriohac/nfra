@@ -11,6 +11,7 @@ const { forgotPassword, resetPassword, updatePassword, } = require("../controlle
 
 const router = express.Router();
 
+
 router.post("/signup", async (req, res) => {
   try {
 
@@ -50,8 +51,11 @@ router.post("/signup", async (req, res) => {
       password: hashedPassword
     }
     );
+    const newUser = await User.findById(user._id).select("-password");
 
-    res.json(user);
+    res.status(201).json(newUser);
+
+
   } catch (error) {
     res.status(500).json({
       message: error.message
@@ -94,10 +98,10 @@ router.post("/login", async (req, res) => {
   });
 });
 
-router.put("/onboarding/:id",
+router.put("/onboarding",
+  auth,
   upload.single('profilePhoto'),
   async (req, res) => {
-
     try {
       let profilePhotoUrl = "";
 
@@ -135,7 +139,7 @@ router.put("/onboarding/:id",
       const zone = maleZone || femaleZone;
 
 
-      const updatedUser = await User.findByIdAndUpdate(req.params.id,
+      const updatedUser = await User.findByIdAndUpdate(req.user.id,
 
         {
 
@@ -167,7 +171,9 @@ router.put("/onboarding/:id",
 
         },
 
-        { new: true }
+        { new: true,
+          select: "-password"
+         }
 
       );
 
@@ -183,13 +189,22 @@ router.put("/onboarding/:id",
 
   });
 
-router.get("/user/:id", async (req, res) => {
+router.get("/user/me", auth, async (req, res) => {
+
+
 
   try {
 
+   
     const user = await User.findById(
-      req.params.id
-    );
+      req.user.id
+    ).select("-password");
+
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found"
+      });
+    }
 
     res.json(user);
 
@@ -205,13 +220,15 @@ router.get("/user/:id", async (req, res) => {
 
 // const fs = require("fs");
 // const path = require("path");
-router.patch("/user/:id",
+router.patch("/user/me",
+  auth,
   upload.single("profilePhoto"),
   async (req, res) => {
 
     try {
 
-      const user = await User.findById(req.params.id);
+      const user = await User.findById(req.user.id);
+      
 
       if (!user) {
         return res.status(404).json({
@@ -271,11 +288,13 @@ router.patch("/user/:id",
 
       const updatedUser = await User.findByIdAndUpdate(
 
-        req.params.id,
+        req.user.id,
 
         updatedData,
 
-        { new: true }
+        { new: true,
+          select: "-password"
+         }
 
       );
 
@@ -365,18 +384,19 @@ router.post(
 );
 
 router.patch(
-  "/update-password/:id",
+  "/update-password",
+  auth,
   updatePassword,
 );
 
 router.post(
-    "/forgot-password",
-    forgotPassword
+  "/forgot-password",
+  forgotPassword
 );
 
 router.post(
-    "/reset-password/:token",
-    resetPassword
+  "/reset-password/:token",
+  resetPassword
 );
 
 

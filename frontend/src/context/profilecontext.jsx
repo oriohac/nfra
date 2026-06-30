@@ -9,15 +9,22 @@ export const ProfileProvider = ({ children }) => {
 
   const fetchProfile = async () => {
     try {
-      const user = JSON.parse(localStorage.getItem("user"));
+      const token = localStorage.getItem("token");
 
-      if (!user?._id) return;
+      if (!token) {
+        setLoading(false);
+        return;
+      }
 
-      const response = await api.get(`/auth/user/${user._id}`);
+      const response = await api.get(`/auth/user/me`);
 
       setProfile(response.data);
     } catch (error) {
       console.log(error);
+      if (error.response?.status === 401) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+    }
     } finally {
       setLoading(false);
     }

@@ -33,12 +33,6 @@ export default function AdminDashboard() {
         const response =
           await api.get(
             "/admin/stats",
-            {
-              headers: {
-                Authorization:
-                  `Bearer ${token}`
-              }
-            }
           );
 
         setStats(response.data);
